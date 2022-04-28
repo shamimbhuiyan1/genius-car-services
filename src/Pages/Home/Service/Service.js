@@ -7,7 +7,7 @@ const Service = ({ service }) => {
       <img className="w-100" src={img} alt="" />
       <div>
         <h2>{name}</h2>
-        <p>Price: {price}</p>
+        <p>Price: ${price}</p>
         <p>
           <small>{description}</small>
         </p>
