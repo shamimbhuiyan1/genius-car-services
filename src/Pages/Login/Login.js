@@ -54,7 +54,7 @@ const Login = () => {
       </Form>
       {/* navigate korar link */}
       <p>
-        New to Genius Car{" "}
+        New to Genius Car?{" "}
         <Link
           to="/register"
           className="text-danger pe-auto text-decoration-none"

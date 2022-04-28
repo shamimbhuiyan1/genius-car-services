@@ -9,6 +9,10 @@ const Register = () => {
 
   const handleRegister = (event) => {
     event.preventDefault();
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    console.log(name, email, password);
   };
 
   return (
@@ -29,7 +33,7 @@ const Register = () => {
 
         <input
           type="password"
-          name=""
+          name="password"
           id=""
           placeholder="Your Password"
           required
