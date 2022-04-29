@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import auth from "../../../firebase.init";
 
 const Login = () => {
   /* email ba jekono input field er value pete amare react useRef hook (emailRef.current.value) use korvo.alternate way instead of email.target.value er jaigte. */
@@ -9,11 +11,19 @@ const Login = () => {
   const passwordRef = useRef("");
   const navigate = useNavigate();
 
+  //react firevase hooks theke amra sign in dibo
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+  if (user) {
+    navigate("/home");
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(email, password);
+    signInWithEmailAndPassword(email, password);
   };
   // jei page navigate click korle jabe
   const navigateRegister = (event) => {
