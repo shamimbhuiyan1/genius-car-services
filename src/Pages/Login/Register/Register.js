@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import "./Register.css";
-import SocialLogin from "../Login/SocialLogin/SocialLogin";
+import SocialLogin from "../SocialLogin/SocialLogin";
+
 const Register = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);

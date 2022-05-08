@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
-import SocialLogin from "./SocialLogin/SocialLogin";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
   // email ba jekono input field er value pete amare react useRef hook (emailRef.current.value) use korvo.alternate way instead of email.target.value er jaigte.
