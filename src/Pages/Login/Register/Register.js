@@ -8,6 +8,7 @@ import auth from "../../../firebase.init";
 import "./Register.css";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import { async } from "@firebase/util";
+import Loading from "../../Shared/Loading/Loading";
 
 const Register = () => {
   //checkbox terms er jonno state declare
@@ -22,6 +23,10 @@ const Register = () => {
   const navigateLogin = () => {
     navigate("/login");
   };
+
+  if (loading || updating) {
+    return <Loading></Loading>;
+  }
   if (user) {
     // navigate("/home");
     console.log("user", user);

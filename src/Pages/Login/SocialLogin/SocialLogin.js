@@ -8,6 +8,7 @@ import {
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../Shared/Loading/Loading";
 const SocialLogin = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
@@ -15,6 +16,9 @@ const SocialLogin = () => {
 
   //jodi kono error khai tahole nicher variable declare korte hbe and return korbo na,r ta na hle orthat return korle nicher other sign in option gulo ashbe na.
   let errorElement;
+  if (loading || loading1) {
+    return <Loading></Loading>;
+  }
   if (error || error1) {
     errorElement = (
       <p className="text-danger">

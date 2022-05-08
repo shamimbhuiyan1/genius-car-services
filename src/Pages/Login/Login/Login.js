@@ -7,7 +7,11 @@ import {
 } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
+import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   // email ba jekono input field er value pete amare react useRef hook (emailRef.current.value) use korvo.alternate way instead of email.target.value er jaigte.
@@ -30,6 +34,10 @@ const Login = () => {
   if (user) {
     navigate(from, { replace: true });
   }
+  if (loading || sending) {
+    return <Loading></Loading>;
+  }
+
   //error msg show
   if (error) {
     errorElement = <p className="text-danger">Error: {error?.message}</p>;
@@ -49,8 +57,12 @@ const Login = () => {
   //reset password
   const resetPassword = async () => {
     const email = emailRef.current.value;
-    await sendPasswordResetEmail(email);
-    alert("Sent email");
+    if (email) {
+      await sendPasswordResetEmail(email);
+      toast("Sent email");
+    } else {
+      toast("please enter your email");
+    }
   };
   return (
     <div className="container w-50 mx-auto ">
@@ -93,15 +105,15 @@ const Login = () => {
       {/* forget password */}
       <p className="text-center">
         Forgot Password?{" "}
-        <Link
-          to="/register"
-          className="text-primary pe-auto text-decoration-none"
+        <button
+          className="btn btn-link text-primary pe-auto text-decoration-none"
           onClick={resetPassword}
         >
           Reset Password
-        </Link>
+        </button>
       </p>
       <SocialLogin></SocialLogin>
+      <ToastContainer />
     </div>
   );
 };
