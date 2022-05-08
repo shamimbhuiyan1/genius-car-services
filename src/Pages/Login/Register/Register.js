@@ -47,17 +47,23 @@ const Register = () => {
           placeholder="Your Password"
           required
         />
-        <input className="btn btn-primary" type="submit" value="Register" />
+        <input type="checkbox" name="terms" id="terms" />
+        <label htmlFor="terms">Accept Genius Car Terms & Conditions</label>
+        <input
+          className="btn btn-primary w-50 mx-auto mt-2"
+          type="submit"
+          value="Register"
+        />
       </form>
 
       {/* jodi already account thake tahole login in navigate korabo. */}
 
-      <p>
+      <p className="text-center">
         Already Have An Acoount?{" "}
         <Link
           to="/login"
           onClick={navigateLogin}
-          className="text-danger pe-auto text-decoration-none"
+          className="text-primary pe-auto text-decoration-none"
         >
           Please Login
         </Link>

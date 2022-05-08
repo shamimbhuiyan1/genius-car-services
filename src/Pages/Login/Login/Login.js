@@ -1,6 +1,10 @@
+import { async } from "@firebase/util";
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -14,13 +18,21 @@ const Login = () => {
 
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
+  let errorElement;
   //react firebase hooks theke amra sign in dibo
 
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+
+  //reset password
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   //login korar por redirect niche page cole jabe
   if (user) {
     navigate(from, { replace: true });
+  }
+  //error msg show
+  if (error) {
+    errorElement = <p className="text-danger">Error: {error?.message}</p>;
   }
 
   const handleSubmit = (event) => {
@@ -32,6 +44,13 @@ const Login = () => {
   // jodi register kra na thake tahole ,register page navigate click korle nie jabe
   const navigateRegister = (event) => {
     navigate("/register");
+  };
+
+  //reset password
+  const resetPassword = async () => {
+    const email = emailRef.current.value;
+    await sendPasswordResetEmail(email);
+    alert("Sent email");
   };
   return (
     <div className="container w-50 mx-auto ">
@@ -54,22 +73,32 @@ const Login = () => {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+
+        <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
+          Login
         </Button>
       </Form>
+      <p className="text-center">{errorElement}</p>
       {/* navigate korar link */}
-      <p>
+      <p className="text-center">
         New to Genius Car?{" "}
         <Link
           to="/register"
-          className="text-danger pe-auto text-decoration-none"
+          className="text-primary pe-auto text-decoration-none"
           onClick={navigateRegister}
         >
           Please Register
+        </Link>
+      </p>
+      {/* forget password */}
+      <p className="text-center">
+        Forgot Password?{" "}
+        <Link
+          to="/register"
+          className="text-primary pe-auto text-decoration-none"
+          onClick={resetPassword}
+        >
+          Reset Password
         </Link>
       </p>
       <SocialLogin></SocialLogin>
