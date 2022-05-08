@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
@@ -6,6 +6,8 @@ import "./Register.css";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
+  //checkbox terms er jonno state declare
+  const [agree, setAgree] = useState(false);
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const navigate = useNavigate();
@@ -21,7 +23,12 @@ const Register = () => {
     const name = event.target.name.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    createUserWithEmailAndPassword(email, password);
+
+    //checkbox click krar ekta upay
+    /* const agree = event.target.terms.checkbox */
+    if (agree) {
+      createUserWithEmailAndPassword(email, password);
+    }
   };
 
   return (
@@ -47,9 +54,28 @@ const Register = () => {
           placeholder="Your Password"
           required
         />
-        <input type="checkbox" name="terms" id="terms" />
-        <label htmlFor="terms">Accept Genius Car Terms & Conditions</label>
+        <div className="text-center">
+          <input
+            onClick={() => setAgree(!agree)}
+            type="checkbox"
+            name="terms"
+            id="terms"
+          />
+          {/* <label
+            className={agree ? "ps-2" : "ps-2 text-danger"}
+            htmlFor="terms"
+          >
+            Accept Genius Car Terms & Conditions
+          </label> */}
+          <label
+            className={`ps-2 ${agree ? "" : "ps-2 text-danger"}`}
+            htmlFor="terms"
+          >
+            Accept Genius Car Terms & Conditions
+          </label>
+        </div>
         <input
+          disabled={!agree}
           className="btn btn-primary w-50 mx-auto mt-2"
           type="submit"
           value="Register"
