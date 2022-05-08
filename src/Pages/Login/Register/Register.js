@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import "./Register.css";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { async } from "@firebase/util";
 
 const Register = () => {
   //checkbox terms er jonno state declare
   const [agree, setAgree] = useState(false);
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  //updating  profile
+  const [updateProfile, updating, error] = useUpdateProfile(auth);
+  //ekhane nouton user create korar jonn0 useCreateUserWithEmailAndPassword hooks use korchi  email verify korar jonno amra sendEmailVerification nibo
+  const [createUserWithEmailAndPassword, user, loading, error1] =
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
   const navigate = useNavigate();
   const navigateLogin = () => {
     navigate("/login");
   };
   if (user) {
-    navigate("/home");
+    // navigate("/home");
+    console.log("user", user);
   }
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const email = event.target.email.value;
@@ -26,14 +35,16 @@ const Register = () => {
 
     //checkbox click krar ekta upay
     /* const agree = event.target.terms.checkbox */
-    if (agree) {
-      createUserWithEmailAndPassword(email, password);
-    }
+
+    await createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName: name });
+    console.log("Updated profile");
+    navigate("/home");
   };
 
   return (
     <div className="register-form">
-      <h3 style={{ textAlign: "center", marginTop: "10px", color: "blue" }}>
+      <h3 style={{ textAlign: "center", marginTop: "10px", color: "black" }}>
         Please Register
       </h3>
       <form onSubmit={handleRegister}>
