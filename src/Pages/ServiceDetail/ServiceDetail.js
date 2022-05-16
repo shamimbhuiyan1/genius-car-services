@@ -1,16 +1,18 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const ServiceDetail = () => {
-  const {serviceId } = useParams();
-  const [service,setService]=useState({})
-  useEffect(()=>{
-    const url=`http://localhost:3000/service/${serviceId}`;
+  const { serviceId } = useParams();
+  const [service, setService] = useState({});
+
+  useEffect(() => {
+    const url = `http://localhost:3000/service/${serviceId}`;
 
     fetch(url)
-    .then(res=>res.json())
-    .then(data=>setService(data))
-  },[])
+      .then((res) => res.json())
+      .then((data) => setService(data));
+  }, []);
+  console.log(service);
   return (
     <div>
       <h2>You are about to book: {service.name}</h2>
